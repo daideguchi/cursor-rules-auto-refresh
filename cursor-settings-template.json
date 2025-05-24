@@ -1,0 +1,109 @@
+{
+  "// Cursor Rules Auto-Integration Settings": "自動ルール統合設定",
+  
+  "cursor.rules.autoRefresh": true,
+  "cursor.rules.showReminders": true,
+  "cursor.rules.reminderInterval": 3600,
+  "cursor.rules.autoLoadOnStartup": true,
+  
+  "// Files to watch for changes": "変更監視ファイル",
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.git/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/.cache/**": true,
+    "**/coverage/**": true
+  },
+  
+  "// Cursor rules files priority": "ルールファイル優先度",
+  "cursor.rules.files": [
+    ".cursor/rules/globals.mdc",
+    ".cursor/rules/todo.mdc",
+    ".cursor/rules/dev-rules/coding-standards.mdc",
+    ".cursor/rules/dev-rules/git-workflow.mdc",
+    ".cursor/rules/dev-rules/testing-guidelines.mdc",
+    "@todo.md"
+  ],
+  
+  "// Auto-completion and suggestions": "自動補完・提案設定",
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": true,
+    "strings": true
+  },
+  
+  "// Rules validation": "ルール検証設定",
+  "cursor.rules.validation": {
+    "checkTodoUpdate": true,
+    "checkCommitMessage": true,
+    "checkCodeQuality": true,
+    "enforceConventions": true
+  },
+  
+  "// Workspace settings for rules": "ワークスペース用ルール設定",
+  "workspace.rules.autoApply": true,
+  "workspace.rules.showNotifications": true,
+  "workspace.rules.reminderFrequency": "hourly",
+  
+  "// File associations": "ファイル関連付け",
+  "files.associations": {
+    "*.mdc": "markdown",
+    "@todo.md": "markdown",
+    ".cursor/rules/*": "markdown"
+  },
+  
+  "// Editor settings for rule files": "ルールファイル用エディタ設定",
+  "[markdown]": {
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": true,
+      "strings": true
+    }
+  },
+  
+  "// Auto-save for critical files": "重要ファイルの自動保存",
+  "files.autoSave": "onFocusChange",
+  "files.autoSaveDelay": 1000,
+  
+  "// Git integration": "Git連携設定",
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  
+  "// Terminal integration": "ターミナル連携",
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  
+  "// Extension recommendations": "推奨拡張機能",
+  "extensions.recommendations": [
+    "ms-vscode.vscode-json",
+    "davidanson.vscode-markdownlint",
+    "yzhang.markdown-all-in-one",
+    "streetsidesoftware.code-spell-checker"
+  ],
+  
+  "// Search exclusions": "検索除外設定",
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.git": true,
+    "**/coverage": true
+  },
+  
+  "// Problems panel settings": "問題パネル設定",
+  "problems.showCurrentInStatus": true,
+  "problems.sortOrder": "severity",
+  
+  "// Cursor AI settings": "Cursor AI設定",
+  "cursor.ai.model": "gpt-4",
+  "cursor.ai.useRulesContext": true,
+  "cursor.ai.contextFiles": [
+    ".cursor/rules/**/*.mdc",
+    "@todo.md",
+    "README.md"
+  ]
+} 
