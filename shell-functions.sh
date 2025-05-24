@@ -107,13 +107,13 @@ cursor-start() {
 # Quick install Cursor rules in current directory
 cursor-init() {
     echo "🚀 Initializing Cursor rules..."
-    curl -fsSL https://raw.githubusercontent.com/your-org/cursor-rules/main/install.sh | bash
+    curl -fsSL https://raw.githubusercontent.com/daideguchi/cursor-rules-auto-refresh/main/install.sh | bash
 }
 
 # Update existing Cursor rules
 cursor-update() {
     echo "🔄 Updating Cursor rules..."
-    curl -fsSL https://raw.githubusercontent.com/your-org/cursor-rules/main/update.sh | bash
+    curl -fsSL https://raw.githubusercontent.com/daideguchi/cursor-rules-auto-refresh/main/update.sh | bash
 }
 
 # Create new project with Cursor rules (完全自動化版)
