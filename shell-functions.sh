@@ -116,15 +116,32 @@ cursor-update() {
     curl -fsSL https://raw.githubusercontent.com/your-org/cursor-rules/main/update.sh | bash
 }
 
-# Create new project with Cursor rules
+# Create new project with Cursor rules (完全自動化版)
 cursor-new() {
+    local script_url="https://raw.githubusercontent.com/daideguchi/cursor-rules-auto-refresh/main/project-setup.sh"
+    
+    # プロジェクトセットアップスクリプトをダウンロードして実行
+    if curl -fsSL "$script_url" -o /tmp/cursor-project-setup.sh 2>/dev/null; then
+        chmod +x /tmp/cursor-project-setup.sh
+        /tmp/cursor-project-setup.sh "$@"
+        rm -f /tmp/cursor-project-setup.sh
+    else
+        echo "❌ Failed to download project setup script. Using fallback..."
+        cursor-new-fallback "$@"
+    fi
+}
+
+# フォールバック版（ネットワークエラー時）
+cursor-new-fallback() {
     local project_name="$1"
+    local project_type="${2:-general}"
+    
     if [[ -z "$project_name" ]]; then
-        echo "Usage: cursor-new <project-name>"
+        echo "Usage: cursor-new <project-name> [project-type]"
         return 1
     fi
     
-    echo "📁 Creating new project: $project_name"
+    echo "📁 Creating new project: $project_name (type: $project_type)"
     mkdir -p "$project_name"
     cd "$project_name"
     
@@ -133,13 +150,60 @@ cursor-new() {
     
     # Create basic files
     echo "# $project_name" > README.md
-    echo "node_modules/" > .gitignore
-    echo ".env" >> .gitignore
+    cat > .gitignore << 'EOF'
+# Dependencies
+node_modules/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Build
+dist/
+build/
+EOF
     
     # Apply Cursor rules
     cursor-init
     
+    # Initial commit
+    git add .
+    git commit -m "feat: initial project setup with Cursor Rules"
+    
     echo "✅ Project '$project_name' created with Cursor rules!"
+    echo "📁 Location: $(pwd)"
+    echo "💡 Run 'cursor-start' to initialize development session"
+}
+
+# クイック新規プロジェクト作成
+cursor-quick() {
+    local project_name="$1"
+    local project_type="${2:-general}"
+    
+    if [[ -z "$project_name" ]]; then
+        echo "🚀 Quick Project Setup"
+        echo "Usage: cursor-quick <project-name> [project-type]"
+        echo ""
+        echo "Common types: react, vue, next, node-api, python-web, go-api, general"
+        echo ""
+        echo "Examples:"
+        echo "  cursor-quick my-app react"
+        echo "  cursor-quick my-api node-api"
+        return 1
+    fi
+    
+    echo "🚀 Creating '$project_name' with type '$project_type'..."
+    cursor-new "$project_name" "$project_type"
 }
 
 # Clone repository and apply Cursor rules
@@ -206,7 +270,8 @@ cursor-help() {
     echo "=== Core Commands ==="
     echo "  cursor-init      Initialize Cursor rules in current directory"
     echo "  cursor-update    Update existing Cursor rules"
-    echo "  cursor-new       Create new project with Cursor rules"
+    echo "  cursor-new       Create new project with Cursor rules (full automation)"
+    echo "  cursor-quick     Quick project creation with type selection"
     echo "  cursor-clone     Clone repo and apply Cursor rules"
     echo "  cursor-status    Check Cursor rules installation status"
     echo "  cursor-clean     Remove Cursor rules from current directory"
@@ -218,7 +283,8 @@ cursor-help() {
     echo "  cursor-help      Show this help message"
     echo ""
     echo "💡 Examples:"
-    echo "  cursor-new my-awesome-project    # Create project with rules"
+    echo "  cursor-new my-app react          # Create React project with full setup"
+    echo "  cursor-quick my-api node-api     # Quick Node.js API creation"
     echo "  cursor-clone https://github.com/user/repo.git"
     echo "  cursor-init                      # Add rules to existing project"
     echo "  cursor-auto on                   # Enable auto-refresh"
